@@ -1,20 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {SafeAreaView, StatusBar,Text, Platform} from 'react-native'
+import FNavigation from './navigation';
+import { useFonts } from 'expo-font';
+import DataProvider from './context';
+const App = ()=> {
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  const [fonts] = useFonts({
+    'Montserrat-Regular': require('./assets/fonts/static/Montserrat-Regular.ttf'),
+    'Montserrat-Bold': require('./assets/fonts/static/Montserrat-Bold.ttf'),
+  })
+
+  if (!fonts) {
+    return <SafeAreaView>
+      <StatusBar barStyle={Platform.OS === 'android' ? "default":  "dark-content"}/>
+        <Text>Loading...</Text>
+    </SafeAreaView>
+  }
+  return <DataProvider>
+    <StatusBar barStyle={Platform.OS === 'android' ? "default":  "dark-content"} />
+    <FNavigation />
+  </DataProvider>
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
